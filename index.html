@@ -6,105 +6,59 @@
     <title>CactusVPN — Защищённый интернет</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* Ваш красивый дизайн (оставляем как есть) */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto;
             background: linear-gradient(145deg, #0a0f1c 0%, #0c1222 100%);
             color: #fff;
             padding: 20px;
             min-height: 100vh;
         }
-
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        /* Header */
-        .header {
-            text-align: center;
-            margin-bottom: 32px;
-            padding-top: 20px;
-        }
-
+        .container { max-width: 500px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 32px; padding-top: 20px; }
         .logo {
-            width: 80px;
-            height: 80px;
+            width: 80px; height: 80px;
             background: linear-gradient(135deg, #00b4ff, #00f2fe);
             border-radius: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             margin: 0 auto 16px;
             font-size: 40px;
-            font-weight: bold;
             box-shadow: 0 10px 25px -5px rgba(0,180,255,0.3);
         }
-
         h1 {
-            font-size: 28px;
-            font-weight: 700;
+            font-size: 28px; font-weight: 700;
             background: linear-gradient(135deg, #fff, #a5f3fc);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 8px;
         }
-
-        .subtitle {
-            color: #8b9bb5;
-            font-size: 14px;
-        }
-
-        /* Cards (Tariffs) */
+        .subtitle { color: #8b9bb5; font-size: 14px; margin-top: 8px; }
         .tariff-card {
-            background: rgba(18, 25, 45, 0.6);
+            background: rgba(18,25,45,0.6);
             backdrop-filter: blur(10px);
             border-radius: 24px;
             padding: 20px;
             margin-bottom: 16px;
-            border: 1px solid rgba(0, 180, 255, 0.2);
+            border: 1px solid rgba(0,180,255,0.2);
             transition: all 0.2s ease;
-            cursor: pointer;
         }
-
         .tariff-card:hover {
             border-color: #00b4ff;
-            background: rgba(18, 25, 45, 0.8);
+            background: rgba(18,25,45,0.8);
             transform: translateY(-2px);
         }
-
         .tariff-name {
             font-size: 20px;
             font-weight: 600;
-            margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 8px;
         }
-
-        .price {
-            font-size: 24px;
-            font-weight: 700;
-            color: #00b4ff;
-        }
-
-        .price small {
-            font-size: 12px;
-            font-weight: normal;
-            color: #8b9bb5;
-        }
-
-        .features {
-            list-style: none;
-            margin-top: 12px;
-        }
-
+        .price { font-size: 24px; font-weight: 700; color: #00b4ff; }
+        .price small { font-size: 12px; font-weight: normal; color: #8b9bb5; }
+        .features { list-style: none; margin-top: 12px; }
         .features li {
             font-size: 14px;
             color: #b0c4de;
@@ -113,14 +67,7 @@
             align-items: center;
             gap: 8px;
         }
-
-        .features li::before {
-            content: "✓";
-            color: #00f2fe;
-            font-weight: bold;
-        }
-
-        /* Buttons */
+        .features li::before { content: "✓"; color: #00f2fe; font-weight: bold; }
         .buy-btn {
             width: 100%;
             background: linear-gradient(95deg, #00b4ff, #00f2fe);
@@ -134,95 +81,59 @@
             cursor: pointer;
             transition: 0.2s;
         }
-
-        .buy-btn:active {
-            transform: scale(0.97);
-            opacity: 0.9;
-        }
-
-        /* Footer */
+        .buy-btn:active { transform: scale(0.97); opacity: 0.9; }
         .footer {
             text-align: center;
             margin-top: 32px;
             font-size: 12px;
             color: #4b5a75;
         }
-
-        /* Utility */
-        .text-center {
-            text-align: center;
-        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">🛡️</div>
-            <h1>CactusVPN</h1>
-            <div class="subtitle">Безопасный и быстрый интернет в один клик</div>
-        </div>
-
-        <div id="tariffs">
-            <!-- Тарифы загрузятся через JS -->
-        </div>
-
-        <div class="footer">
-            <span>⚡ 24/7 поддержка | 🔒 Анонимность </span>
-        </div>
+<div class="container">
+    <div class="header">
+        <div class="logo">🛡️</div>
+        <h1>CactusVPN</h1>
+        <div class="subtitle">Безопасный и быстрый интернет в один клик</div>
     </div>
+    <div class="tariff-card" data-id="1" data-name="1 месяц" data-price="100">
+        <div class="tariff-name"><span>1 месяц</span><span class="price">100 ₽ <small>или 50 ⭐</small></span></div>
+        <ul class="features"><li>3 устройства</li><li>До 200 Мбит/с</li><li>Поддержка 24/7</li></ul>
+        <button class="buy-btn">Купить</button>
+    </div>
+    <div class="tariff-card" data-id="2" data-name="6 месяцев" data-price="450">
+        <div class="tariff-name"><span>6 месяцев</span><span class="price">450 ₽ <small>или 300 ⭐</small></span></div>
+        <ul class="features"><li>3 устройства</li><li>До 200 Мбит/с</li><li>Поддержка 24/7</li></ul>
+        <button class="buy-btn">Купить</button>
+    </div>
+    <div class="tariff-card" data-id="3" data-name="12 месяцев" data-price="950">
+        <div class="tariff-name"><span>12 месяцев</span><span class="price">950 ₽ <small>или 600 ⭐</small></span></div>
+        <ul class="features"><li>3 устройства</li><li>До 200 Мбит/с</li><li>Поддержка 24/7</li></ul>
+        <button class="buy-btn">Купить</button>
+    </div>
+    <div class="footer"><span>⚡ 24/7 поддержка | 🔒 Анонимность | 🌍 10+ стран</span></div>
+</div>
+<script>
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+    tg.expand();
 
-    <script>
-        // Инициализация Telegram WebApp
-        const tg = window.Telegram.WebApp;
-        tg.ready();
-        tg.expand(); // Растянуть на весь экран
-
-        // Данные тарифов (можно заменить на запрос к вашему боту)
-        const tariffs = [
-            { id: 1, name: "1 месяц", price: 100, price_stars: 50, features: ["3 устройства", "До 200 Мбит/с", "Поддержка 24/7"] },
-            { id: 2, name: "6 месяца", price: 450, price_stars: 300, features: ["3 устройства", "До 200 Мбит/с", "Поддержка 24/7"] },
-            { id: 3, name: "12 месяцев", price: 950, price_stars: 600, features: ["3 устройства", "До 200 Мбит/с", "Поддержка 24/7"] }
-        ];
-
-        function renderTariffs() {
-            const container = document.getElementById('tariffs');
-            container.innerHTML = '';
-            tariffs.forEach(tariff => {
-                const card = document.createElement('div');
-                card.className = 'tariff-card';
-                card.innerHTML = `
-                    <div class="tariff-name">
-                        <span>${tariff.name}</span>
-                        <span class="price">${tariff.price} ₽ <small>или ${tariff.price_stars} ⭐</small></span>
-                    </div>
-                    <ul class="features">
-                        ${tariff.features.map(f => `<li>${f}</li>`).join('')}
-                    </ul>
-                    <button class="buy-btn" data-id="${tariff.id}" data-name="${tariff.name}" data-price="${tariff.price}">Купить</button>
-                `;
-                container.appendChild(card);
-            });
-
-            // Добавляем обработчики на кнопки
-            document.querySelectorAll('.buy-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const id = btn.getAttribute('data-id');
-                    const name = btn.getAttribute('data-name');
-                    const price = btn.getAttribute('data-price');
-                    // Отправляем данные боту
-                    tg.sendData(JSON.stringify({
-                        action: 'buy',
-                        tariff_id: id,
-                        tariff_name: name,
-                        amount: price
-                    }));
-                    tg.close(); // Закрыть приложение (опционально)
-                });
-            });
-        }
-
-        renderTariffs();
-    </script>
+    document.querySelectorAll('.buy-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const card = btn.closest('.tariff-card');
+            const id = card.getAttribute('data-id');
+            const name = card.getAttribute('data-name');
+            const price = card.getAttribute('data-price');
+            tg.sendData(JSON.stringify({
+                action: 'buy',
+                tariff_id: parseInt(id),
+                tariff_name: name,
+                amount: parseInt(price)
+            }));
+            tg.close();
+        });
+    });
+</script>
 </body>
 </html>
