@@ -1,162 +1,228 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Telegram Mini Apps Vanilla JS Sample App</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>CactusVPN — Защищённый интернет</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body {
-            --bg-color: var(--tg-theme-bg-color);
-            font: 12px/18px "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--tg-theme-text-color);
-            margin: 48px 24px;
+        * {
+            margin: 0;
             padding: 0;
-            color-scheme: var(--tg-color-scheme);
+            box-sizing: border-box;
         }
 
-        a {
-            color: var(--tg-theme-link-color);
-        }
-        #viewport {
-            position: fixed;
-            left: 0;
-            right: 0;
-            top: 0;
-            height: var(--tg-viewport-stable-height, 100vh);
-            pointer-events: none;
-            transition: all .2s ease;
-        }
-        #viewport:after {
-            content: '';
-            display: block;
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            border-width: 4px;
-            border-style: solid;
-            border-image: linear-gradient(45deg, rgba(64, 224, 208, .5), rgba(173, 255, 47, .5)) 1;
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(145deg, #0a0f1c 0%, #0c1222 100%);
+            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
         }
 
-        #viewport-params-size,
-        #viewport-params-expand {
-            content: attr(text);
-            position: absolute;
-            display: inline-block;
-            background: var(--tg-theme-link-color, rgb(64, 224, 208));
-            right: 4px;
-            left: auto;
-            font-size: 8px;
-            padding: 4px;
-            vertical-align: top;
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
         }
-        #viewport-params-size {
-            top: 4px;
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+            padding-top: 20px;
         }
-        #viewport-params-expand {
-            top: 30px;
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #00b4ff, #00f2fe);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 40px;
+            font-weight: bold;
+            box-shadow: 0 10px 25px -5px rgba(0,180,255,0.3);
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #a5f3fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #8b9bb5;
+            font-size: 14px;
+        }
+
+        /* Cards (Tariffs) */
+        .tariff-card {
+            background: rgba(18, 25, 45, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(0, 180, 255, 0.2);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .tariff-card:hover {
+            border-color: #00b4ff;
+            background: rgba(18, 25, 45, 0.8);
+            transform: translateY(-2px);
+        }
+
+        .tariff-name {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-size: 24px;
+            font-weight: 700;
+            color: #00b4ff;
+        }
+
+        .price small {
+            font-size: 12px;
+            font-weight: normal;
+            color: #8b9bb5;
+        }
+
+        .features {
+            list-style: none;
+            margin-top: 12px;
+        }
+
+        .features li {
+            font-size: 14px;
+            color: #b0c4de;
+            padding: 4px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .features li::before {
+            content: "✓";
+            color: #00f2fe;
+            font-weight: bold;
+        }
+
+        /* Buttons */
+        .buy-btn {
+            width: 100%;
+            background: linear-gradient(95deg, #00b4ff, #00f2fe);
+            border: none;
+            border-radius: 40px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #0a0f1c;
+            margin-top: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .buy-btn:active {
+            transform: scale(0.97);
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 32px;
+            font-size: 12px;
+            color: #4b5a75;
+        }
+
+        /* Utility */
+        .text-center {
+            text-align: center;
         }
     </style>
 </head>
-
 <body>
-    <main>
-        <div align="center">
-            <a href="https://ton.org/"><img width="48" src="./assets/tapps.png" alt="logo of telegram web apps"></a>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🛡️</div>
+            <h1>CactusVPN</h1>
+            <div class="subtitle">Безопасный и быстрый интернет в один клик</div>
         </div>
-        <h1>Modals</h1>
-        <button onclick="Telegram.WebApp.showAlert('Hello World!');">Launch Alert</button>
-        <button onclick="showPopup();">Launch Popup</button>
 
-        <h1>Links</h1>
-        <ul>
-            <li>
-                <a href="javascript:Telegram.WebApp.openTelegramLink('https://t.me/trendingapps');">Open link within Telegram</a>
-            </li>
-            <li>
-                <a href="javascript:Telegram.WebApp.openLink('https://ton.org/');">Open link in external browser</a>
-            </li>
-            <li>
-                <a href="javascript:Telegram.WebApp.openLink('https://telegra.ph/api',{try_instant_view:true});">Open link inside Telegram webview</a>
-            </li>
-        </ul>
+        <div id="tariffs">
+            <!-- Тарифы загрузятся через JS -->
+        </div>
 
-        <h1>Buttons</h1>
-        <button onclick="Telegram.WebApp.expand();">Expand Webview</button>
-        <button onclick="toggleMainButton();">Toggle Main Button</button>
-    </main>
-    <div id="viewport"></div>
-    <div id="viewport-params-size"></div>
-    <div id="viewport-params-expand"></div>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+        <div class="footer">
+            <span>⚡ 24/7 поддержка | 🔒 Без логов | 🌍 10+ стран</span>
+        </div>
+    </div>
+
     <script>
-        // Init TWA
-        Telegram.WebApp.ready();
+        // Инициализация Telegram WebApp
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand(); // Растянуть на весь экран
 
-        // Event occurs whenever theme settings are changed in the user's Telegram app (including switching to night mode).
-        Telegram.WebApp.onEvent('themeChanged', function() {
-            document.documentElement.className = Telegram.WebApp.colorScheme;
-        });
+        // Данные тарифов (можно заменить на запрос к вашему боту)
+        const tariffs = [
+            { id: 1, name: "1 месяц", price: 499, price_stars: 99, features: ["10 устройств", "До 100 Мбит/с", "Поддержка 24/7"] },
+            { id: 2, name: "3 месяца", price: 1199, price_stars: 239, features: ["10 устройств", "До 200 Мбит/с", "Приоритетная поддержка"] },
+            { id: 3, name: "12 месяцев", price: 3999, price_stars: 799, features: ["Неограниченно устройств", "Макс. скорость", "VIP-поддержка"] }
+        ];
 
-        // Show main button
-        Telegram.WebApp.MainButton.setParams({
-            text: 'Main Button'
-        });
-        Telegram.WebApp.MainButton.onClick(function () {
-            Telegram.WebApp.showAlert('Main Button was clicked')
-        });	
-        Telegram.WebApp.MainButton.show();
-
-        // Function to call showPopup API
-        function showPopup() {
-            Telegram.WebApp.showPopup({
-                title: 'Title',
-                message: 'Some message',
-                buttons: [
-                    {id: 'link', type: 'default', text: 'Open ton.org'},
-                    {type: 'cancel'},
-                ]
-            }, function(btn) {
-                if (btn === 'link') {
-                    Telegram.WebApp.openLink('https://ton.org/');
-                }
+        function renderTariffs() {
+            const container = document.getElementById('tariffs');
+            container.innerHTML = '';
+            tariffs.forEach(tariff => {
+                const card = document.createElement('div');
+                card.className = 'tariff-card';
+                card.innerHTML = `
+                    <div class="tariff-name">
+                        <span>${tariff.name}</span>
+                        <span class="price">${tariff.price} ₽ <small>или ${tariff.price_stars} ⭐</small></span>
+                    </div>
+                    <ul class="features">
+                        ${tariff.features.map(f => `<li>${f}</li>`).join('')}
+                    </ul>
+                    <button class="buy-btn" data-id="${tariff.id}" data-name="${tariff.name}" data-price="${tariff.price}">Купить</button>
+                `;
+                container.appendChild(card);
             });
-        };
 
-        // Function to toggle main TWA button
-        function toggleMainButton() {
-            if (Telegram.WebApp.MainButton.isVisible) {
-                Telegram.WebApp.MainButton.hide();
-            } else {
-                Telegram.WebApp.MainButton.show();
-            }
-        };
-
-        function setViewportData() {
-            var sizeEl = document.getElementById('viewport-params-size');
-            sizeEl.innerText = 'width: ' + window.innerWidth + ' x ' + 
-                'height: ' + Telegram.WebApp.viewportStableHeight;
-
-            var expandEl = document.querySelector('#viewport-params-expand');
-            expandEl.innerText = 'Is Expanded: ' + (Telegram.WebApp.isExpanded ? 'true' : 'false');
+            // Добавляем обработчики на кнопки
+            document.querySelectorAll('.buy-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const id = btn.getAttribute('data-id');
+                    const name = btn.getAttribute('data-name');
+                    const price = btn.getAttribute('data-price');
+                    // Отправляем данные боту
+                    tg.sendData(JSON.stringify({
+                        action: 'buy',
+                        tariff_id: id,
+                        tariff_name: name,
+                        amount: price
+                    }));
+                    tg.close(); // Закрыть приложение (опционально)
+                });
+            });
         }
 
-        Telegram.WebApp.setHeaderColor('secondary_bg_color');
-
-        setViewportData();
-        Telegram.WebApp.onEvent('viewportChanged', setViewportData);
-
-        Telegram.WebApp.onEvent('themeChanged', function() {
-            document.body.setAttribute('style', '--bg-color:' + Telegram.WebApp.backgroundColor);
-        });
-
+        renderTariffs();
     </script>
-
-    <!-- Eruda is console for mobile browsers -->
-    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-    <script>eruda.init();</script>
 </body>
 </html>
